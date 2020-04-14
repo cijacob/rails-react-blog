@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Jumbotron from './Jumbotron'
+import Table from './table/Table'
 
 class Home extends Component{
   constructor(){
@@ -19,8 +20,9 @@ class Home extends Component{
   render(){
     return(
       <div>
-        <h3>My Home component</h3>
+        <h3 className="text-center">My Home component</h3>
         <Jumbotron/>
+        <Table course_modules={this.state.course_modules}/>
       </div>
     )
   }
