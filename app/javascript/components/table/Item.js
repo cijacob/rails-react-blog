@@ -17,7 +17,7 @@ const Item = (props) => {
                   <h4> {props.title} </h4>
                   <p> {props.description} </p>
                   <div className="cta wrapper">
-                    <a className="btn cta-btn">Regarder cette video</a>
+                    <a onClick={props.handleVideoStatus} className="btn cta-btn">Regarder cette video</a>
                   </div>
                 </div>
               </div>

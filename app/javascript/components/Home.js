@@ -1,20 +1,45 @@
 import React, { Component } from 'react'
 import Jumbotron from './Jumbotron'
 import Table from './table/Table'
+import axios from 'axios'
 
 class Home extends Component{
   constructor(){
     super()
 
     this.state = {
-      course_modules: [
-        {id: 1, title: "React chapitre 1", description:"Lorem ipsum", active: false},
-        {id: 2, title: "React chapitre 2", description:"Lorem ipsum", active: false},
-        {id: 3, title: "React chapitre 3", description:"Lorem ipsum", active: false},
-        {id: 4, title: "React chapitre 4", description:"Lorem ipsum", active: false},
-        {id: 5, title: "React chapitre 5", description:"Lorem ipsum", active: false}
-      ]
+      course_modules: []
     }
+  }
+
+  componentDidMount(){
+    axios.get('/episodes.json')
+    .then( data => {
+      debugger
+
+      let result = []
+      data.data.data.map((data) => {
+        result.push({id: data.id, title: data.title, description: data.description, active: false})
+
+        this.setState({course_modules: result})
+      })
+    })
+    .catch( data => {
+      debugger
+    })
+  }
+
+  handleVideoStatus(item, event){
+    event.preventDefault()
+    let course_modules = [...this.state.course_modules]
+    
+    course_modules.map( data => {
+      data.active = false
+    })
+    item.active = !item.active
+
+    course_modules[ item.id - 1  ] = item
+    this.setState({course_modules})
   }
   
   render(){
@@ -22,7 +47,7 @@ class Home extends Component{
       <div>
         <h3 className="text-center">My Home component</h3>
         <Jumbotron/>
-        <Table course_modules={this.state.course_modules}/>
+        <Table handleVideoStatus={this.handleVideoStatus.bind(this)} course_modules={this.state.course_modules}/>
       </div>
     )
   }
